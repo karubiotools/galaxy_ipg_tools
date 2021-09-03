@@ -7,3 +7,5 @@ MIRUReader.tar.gz is a wrapper for MIRUReader tool ([GitHub](https://github.com/
 ## SRArunInfo wrapper
 SRArunInfo.tar.gz is a wrapper for SRArunInfo tool ([GitHub](https://github.com/karubiotools/getSequenceInfo/tree/master/supplementary_tools))
 
+## NucleScore wrapper
+nucleScore.tar.gz is a wrapper for NucleScore tool ([GitHub](https://github.com/karubiotools/getSequenceInfo/tree/master/supplementary_tools))
