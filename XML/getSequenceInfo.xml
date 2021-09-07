@@ -1,0 +1,85 @@
+tool id="getseqinfo" name="getSequenceInfo tool" version="0.1.0">
+  <description>allows to extract sequence data and specific information from GenBank </description>
+
+<requirements>
+  <requirement type="package" version="1.7.2">perl-bioperl</requirement>
+  <requirement type="package" version="2.32">perl-archive-tar</requirement>
+  <requirement type="package" version="0.45">perl-file-copy-recursive</requirement>
+  <requirement type="package" version="2.16">perl-file-path</requirement>
+  <requirement type="package" version="2.79">perl-net-ftp</requirement>
+  <requirement type="package" version="2.064">perl-io-uncompress-gunzip</requirement>
+  <requirement type="package" version="6.15">perl-lwp-simple</requirement>
+  <requirement type="package" version="1.38_03">perl-posix</requirement>
+</requirements>
+
+<!--<command interpreter="bash">
+    ./getSequenceInfo.sh genbank $availableKingdom $assemblylevel $species $quantity $output1
+   perl $directory/getSequenceInfo.pl -directory $dir -k $availableKingdoms -l $assemblylevel -s $species -n $quantity -o $output
+
+  </command>-->
+
+ <command detect_errors="aggressive"><![CDATA[
+#import re
+
+       
+        
+       perl $__tool_directory__/getSequenceInfo.pl -k $availableKingdoms -l "$assemblylevel" -s "$species" -n $quantity -o results &&
+        
+		
+       mv results/$availableKingdoms_folder/result/Assemby/* outdir/ &&
+       mv results/$availableKingdoms_folder/result/GenBank/* outdir/ &&
+   
+       mv results/$availableKingdoms_folder/result/summary.html $summary_html 
+       mv results/$availableKingdoms_folder/result/summary.xls $summary_tsv
+    
+]]></command>
+
+
+ <inputs>
+
+<param name="availableKingdoms" type="select" label="Select the kingdom:">
+  <!--<option value="archea">archaea</option>-->
+  <option value="bacteria">bacteria</option>
+  <!--<option value="fungi">fungi</option>-->
+  <!--<option value="invertebrate">invertebrate</option>-->
+  <!--<option value="plant">plant</option>-->
+  <option value="protozoa">protozoa</option>
+  <!--<option value="vertebrate_mammalian">vertebrate_mammalian</option>-->
+  <!--<option value="vertebrate_other">vertebrate_other</option>-->
+  <option value="viral">viral</option>
+</param>
+
+<param name="assemblyLevel" type="select" label="Assembly level:">
+  <option value="Complete genome">Complete Genome</option>
+  <option value="Complete Genome,Chromosome,Scaffold,Contig">All</option>
+</param>
+
+<param name="component" type="select" label="Sequence component:">
+  <option value="">Everything</option>
+  <option value="plasmid">Plasmid</option>
+  <option value="chromosome">Chromosome</option>
+</param>
+
+<param name="species" type="text" area="false" label="Species:"/>
+<param name="quantity" type="text" area="false" value="3" label="Number of assemblies" />
+<!--<param name="output1" type="text" area="false" />-->
+
+
+ </inputs>
+
+<outputs>
+  <collection name="output" type="list" label="${tool.name} on ${on_string}: Downloaded Files">
+            <discover_datasets pattern="(?P&lt;name&gt;.+)\.fna$" directory="outdir/availableKingdoms_folder/Assembly" format="fasta"/>
+            <discover_datasets pattern="(?P&lt;name&gt;.+)\.gbk$" directory="outdir/availableKingdoms_folder/GenBank" format="genbank"/>
+  </collection>
+  <data format="html" name="summary_html" />
+  <data format="tabular" name="summary_tsv" />
+</outputs>
+
+
+  <help>
+This tool allows to download sequences in FASTA or GenBank format, and retrieve specific information (such as country, pubmed ID, host, ...).
+  </help>
+
+</tool>
+
