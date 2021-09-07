@@ -20,16 +20,15 @@ tool id="getseqinfo" name="getSequenceInfo tool" version="0.1.0">
 
  <command detect_errors="aggressive"><![CDATA[
 #import re
-
        
         
-       perl $__tool_directory__/getSequenceInfo.pl -k $availableKingdoms -l "$assemblylevel" -s "$species" -n $quantity -o results &&
+       perl $__tool_directory__/getSequenceInfo.pl -k $availableKingdoms -l "$assemblylevel" -s "$species" -n $quantity -date "$date" -c "$component" -o results &&
         
 		
        mv results/$availableKingdoms_folder/result/Assemby/* outdir/ &&
        mv results/$availableKingdoms_folder/result/GenBank/* outdir/ &&
    
-       mv results/$availableKingdoms_folder/result/summary.html $summary_html 
+       mv results/$availableKingdoms_folder/result/summary.html $summary_html && 
        mv results/$availableKingdoms_folder/result/summary.xls $summary_tsv
     
 ]]></command>
@@ -61,16 +60,16 @@ tool id="getseqinfo" name="getSequenceInfo tool" version="0.1.0">
 </param>
 
 <param name="species" type="text" area="false" label="Species:"/>
-<param name="quantity" type="text" area="false" value="3" label="Number of assemblies" />
-<!--<param name="output1" type="text" area="false" />-->
+<param name="quantity" type="text" area="false" value="3" label="Number of assemblies:" />
+<param name="date" type="text" value="0000-00-00" area="false" label="From Release date (yyyy-mm-dd):" />
 
 
  </inputs>
 
 <outputs>
   <collection name="output" type="list" label="${tool.name} on ${on_string}: Downloaded Files">
-            <discover_datasets pattern="(?P&lt;name&gt;.+)\.fna$" directory="outdir/availableKingdoms_folder/Assembly" format="fasta"/>
-            <discover_datasets pattern="(?P&lt;name&gt;.+)\.gbk$" directory="outdir/availableKingdoms_folder/GenBank" format="genbank"/>
+            <discover_datasets pattern="(?P&lt;name&gt;.+)\.fna$" directory="outdir" format="fasta"/>
+            <discover_datasets pattern="(?P&lt;name&gt;.+)\.gbk$" directory="outdir" format="genbank"/>
   </collection>
   <data format="html" name="summary_html" />
   <data format="tabular" name="summary_tsv" />
