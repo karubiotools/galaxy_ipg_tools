@@ -1,4 +1,4 @@
-tool id="getseqinfo" name="getSequenceInfo tool" version="0.1.0">
+<tool id="getseqinfo" name="getSequenceInfo tool" version="0.1.0">
   <description>allows to extract sequence data and specific information from GenBank </description>
 
 <requirements>
